@@ -4,12 +4,18 @@ import jakarta.persistence.Temporal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@Table(name = "todos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,10 +30,18 @@ public class Todo {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column
-    @Temporal(TemporalType.DATE)
-    private Date deadline;
+    private LocalDate deadline;
     private boolean done;
 
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void onCreate(){
+        this.done = false;
+        this.createdAt = LocalDateTime.now();
+    }
 
 }

@@ -1,13 +1,14 @@
 package com.example.lifeos.controller;
 import com.example.lifeos.dto.TodoCreateDto;
 import com.example.lifeos.dto.TodoResponseDto;
-import com.example.lifeos.entity.Todo;
+import com.example.lifeos.dto.TodoUpdateDto;
 import com.example.lifeos.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.UUID;
 
 @RestController
@@ -17,8 +18,9 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping
-    public void readAll(){
-
+    public ResponseEntity<Page<TodoResponseDto>> readAll(Pageable pageable){
+        Page<TodoResponseDto> todos = todoService.readAll(pageable);
+        return ResponseEntity.ok(todos);
     }
 
     @GetMapping("/{id}")
@@ -31,14 +33,14 @@ public class TodoController {
         return ResponseEntity.ok(todoService.create(dto));
     }
 
-    @PutMapping
-    public void update(){
-
+    @PatchMapping("/{id}")
+    public ResponseEntity<TodoResponseDto> update(@PathVariable UUID id, @RequestBody TodoUpdateDto dto){
+        return ResponseEntity.ok(todoService.update(id, dto));
     }
 
-    @DeleteMapping
-    public void delete(){
-
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id){
+        todoService.delete(id);
     }
 
 

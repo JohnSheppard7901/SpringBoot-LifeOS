@@ -38,6 +38,11 @@ public class Todo {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    User user;
+
+
     @PrePersist
     public void onCreate(){
         this.done = false;

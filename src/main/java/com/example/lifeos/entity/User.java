@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -28,6 +30,9 @@ public class User {
 
     @Column(nullable = false, unique = false, length = 30)
     String name;
+
+    @Column(nullable = false, unique = false)
+    String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Todo> todos = new ArrayList<>();

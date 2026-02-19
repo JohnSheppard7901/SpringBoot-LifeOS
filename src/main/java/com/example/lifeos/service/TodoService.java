@@ -53,25 +53,29 @@ public class TodoService {
                 ()-> new EntityNotFoundException(id)
         );
 
-        if (!dto.title().isBlank() && !dto.title().isEmpty() && dto.title() != null){
-            todo.setTitle(dto.title());
-        }
+//        if (!dto.title().isBlank()){
+//            todo.setTitle(dto.title());
+//        }
+//
+//        todo.setDescription(dto.description());
+//        todo.setDeadline(dto.deadline());
+//        todo.setDone(dto.done());
+//
+//        Todo updatedTodo = todoRepository.save(todo);
+//        return todoMapper.toResponse(updatedTodo);
 
-        todo.setDescription(dto.description());
-        todo.setDeadline(dto.deadline());
-        todo.setDone(dto.done());
+        todoMapper.updateEntityFromDto(dto, todo);
 
-        Todo updatedTodo = todoRepository.save(todo);
-        return todoMapper.toResponse(updatedTodo);
+        return todoMapper.toResponse(todo);
     }
 
     @Transactional
     public void delete(UUID id){
-        todoRepository.findById(id).orElseThrow(
+        Todo todo = todoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(id)
         );
 
-        todoRepository.deleteById(id);
+        todoRepository.delete(todo);
     }
 
 }

@@ -46,13 +46,30 @@ public class UserService {
 
     @Transactional
     public UserResponseDto update(UUID id, UserUpdateDto dto){
+        User user = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(id)
+        );
+//        if (dto.email() != null){
+//            user.setEmail(dto.email());
+//        }
+//        if (dto.name() != null){
+//            user.setName(dto.name());
+//        }
+//        if(dto.password() != null){
+//            user.setPassword(dto.password());
+//        }
+//        User updatedUser = repository.save(user);
 
+        mapper.updateEntityFromDto(dto, user);
 
-        return null;
+        return mapper.toResponseDto(user);
     }
 
     public void delete(UUID id){
-
+        User user = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(id)
+        );
+        repository.delete(user);
     }
 
 }

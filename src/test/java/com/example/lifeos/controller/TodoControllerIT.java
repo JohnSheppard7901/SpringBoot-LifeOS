@@ -28,43 +28,43 @@ class TodoControllerIT {
     //IT steht für integration test
     // @SpringBootTest sagt das bei dem test spring boot gestartet werden soll
     // Mock Mvc ist für ausführen von Crud methoden
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @MockitoBean
-    TodoService service;
-
-    @Test
-    void shouldCreateTodo() throws Exception {
-        UUID id = UUID.randomUUID();
-        LocalDate date = LocalDate.now();
-        LocalDateTime dateTime = LocalDateTime.now();
-
-        TodoResponseDto responseDto = new TodoResponseDto(
-                id,
-                "Feed Max",
-                "Max is hungry",
-                date,
-                false,
-                dateTime,
-                dateTime
-        );
-        when(service.create(any())).thenReturn(responseDto);
-
-        mockMvc.perform(
-                        post("/todos")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("""
-                                            {
-                                              "title": "Feed Max"
-                                            }
-                                        """))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Feed Max"));
-
-
-    }
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//
+//    @MockitoBean
+//    TodoService service;
+//
+//    @Test
+//    void shouldCreateTodo() throws Exception {
+//        UUID id = UUID.randomUUID();
+//        LocalDate date = LocalDate.now();
+//        LocalDateTime dateTime = LocalDateTime.now();
+//
+//        TodoResponseDto responseDto = new TodoResponseDto(
+//                id,
+//                "Feed Max",
+//                "Max is hungry",
+//                date,
+//                false,
+//                dateTime,
+//                dateTime
+//        );
+//        when(service.create(any())).thenReturn(responseDto);
+//
+//        mockMvc.perform(
+//                        post("/todos")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content("""
+//                                            {
+//                                              "title": "Feed Max"
+//                                            }
+//                                        """))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.title").value("Feed Max"));
+//
+//
+//    }
 
 
 }

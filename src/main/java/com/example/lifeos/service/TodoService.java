@@ -4,16 +4,17 @@ import com.example.lifeos.dto.TodoCreateDto;
 import com.example.lifeos.dto.TodoResponseDto;
 import com.example.lifeos.dto.TodoUpdateDto;
 import com.example.lifeos.entity.Todo;
+import com.example.lifeos.entity.User;
 import com.example.lifeos.exception.EntityNotFoundException;
 import com.example.lifeos.mapper.TodoMapper;
 import com.example.lifeos.repository.TodoRepository;
+import com.example.lifeos.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class TodoService {
 
     private final TodoRepository todoRepository;
+    private final UserRepository userRepository;
     private final TodoMapper todoMapper;
 
     public Page<TodoResponseDto> readAll(Pageable pageable) {
@@ -35,11 +37,17 @@ public class TodoService {
         return todoMapper.toResponse(todo);
     }
 
-    public TodoResponseDto create (TodoCreateDto dto){
+    public TodoResponseDto create (UUID userId, TodoCreateDto dto){
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User could not be found, so Todo can not be created.")
+        );
+
         Todo todo = new Todo();
         todo.setTitle(dto.title());
         todo.setDescription(dto.description());
         todo.setDeadline(dto.deadline());
+        todo.setUser(user);
 
         Todo savedTodo = todoRepository.save(todo);
 

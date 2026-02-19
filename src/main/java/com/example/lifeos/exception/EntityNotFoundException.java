@@ -10,4 +10,7 @@ public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(UUID id) {
         super("Entity with " + id + " could not be found.");
     }
+    public EntityNotFoundException(String message) {
+        super(message);
+    }
 }

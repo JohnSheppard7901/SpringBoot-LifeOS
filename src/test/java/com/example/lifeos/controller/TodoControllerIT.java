@@ -28,6 +28,8 @@ class TodoControllerIT {
     //IT steht für integration test
     // @SpringBootTest sagt das bei dem test spring boot gestartet werden soll
     // Mock Mvc ist für ausführen von Crud methoden
+
+    //service und controller währden getestet, ob sie zusammen funktionieren, repo wiedr weiter gemocked, damti ich db verbindung nicht brauche
 //
 //    @Autowired
 //    MockMvc mockMvc;

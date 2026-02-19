@@ -28,9 +28,9 @@ public class TodoController {
         return ResponseEntity.ok(todoService.read(id));
     }
 
-    @PostMapping
-    public ResponseEntity<TodoResponseDto> create(@RequestBody TodoCreateDto dto){
-        return ResponseEntity.ok(todoService.create(dto));
+    @PostMapping("/{userId}")
+    public ResponseEntity<TodoResponseDto> create(@PathVariable UUID userId, @RequestBody TodoCreateDto dto){
+        return ResponseEntity.ok(todoService.create(userId, dto));
     }
 
     @PatchMapping("/{id}")

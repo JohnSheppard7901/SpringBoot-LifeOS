@@ -1,28 +1,9 @@
 package com.example.lifeos.service;
 
-import com.example.lifeos.dto.TodoCreateDto;
-import com.example.lifeos.dto.TodoResponseDto;
-import com.example.lifeos.entity.Todo;
-import com.example.lifeos.entity.User;
-import com.example.lifeos.mapper.TodoMapper;
-import com.example.lifeos.repository.TodoRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoServiceTest {

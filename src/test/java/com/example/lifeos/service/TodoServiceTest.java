@@ -1,119 +1,171 @@
 package com.example.lifeos.service;
 
+import com.example.lifeos.dto.TodoCreateDto;
+import com.example.lifeos.dto.TodoResponseDto;
+import com.example.lifeos.dto.TodoUpdateDto;
+import com.example.lifeos.entity.Todo;
+import com.example.lifeos.entity.User;
+import com.example.lifeos.exception.EntityNotFoundException;
+import com.example.lifeos.mapper.TodoMapper;
+import com.example.lifeos.repository.TodoRepository;
+import com.example.lifeos.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TodoServiceTest {
-//
-//    //damit mockito mit junit verwendet werden kann, mock faked dependencies
-//    //so das wir service verwenden können ohne das fehler geworfen. so können wir
-//    //service isoliert testen ohne die anderen klassen(dependencies) zu testen
-//
-//    //-- basic setup start
-//    @Mock
-//    TodoRepository repository;
-//
-//    @Mock
-//    TodoMapper mapper;
-//
-//    @InjectMocks
-//    TodoService todoService;
-//    //-- basic setup end
-//
-//    UUID id;
-//    User user;
-//    LocalDate date;
-//    LocalDateTime dateTime;
-//    List<Todo> emptyTodoList;
-//
-//    TodoResponseDto dto;
-//    Todo todo;
-//
-//    @BeforeEach()
-//    void init(){
-//        id = UUID.randomUUID();
-//        date = LocalDate.now();
-//        dateTime = LocalDateTime.now();
-//
-//        emptyTodoList = new ArrayList<>();
-//        user = new User(id, "mail@gmail.com", "John", emptyTodoList);
-//
-//        dto = new TodoResponseDto(
-//                id,
-//                "Feed Max",
-//                "Max is hungry",
-//                date,
-//                false,
-//                dateTime,
-//                dateTime
-//        );
-//        todo = new Todo(
-//                id,
-//                "Feed Max",
-//                "Max is hungry",
-//                date,
-//                false,
-//                dateTime,
-//                dateTime,
-//                user
-//        );
-//    }
-//
-//    @Test
-//    void readShouldReturnTodo(){
-//        //Arrange (Vorbedingungen für test setzen)
-//        when(repository.findById(id)).thenReturn(Optional.of(todo));
-//        when(mapper.toResponse(todo)).thenReturn(dto);
-//
-//        //Act
-//        TodoResponseDto result = todoService.read(id);
-//
-//        //Assert
-//        assertEquals(id, result.id());
-//    }
-//
-////    @Test
-////    void createShouldSaveNewTodo(){
-////        LocalDate deadline = LocalDate.now();
-////        TodoCreateDto createDto = new TodoCreateDto(
-////                "New Todo",
-////                "test if create works",
-////                deadline
-////        );
-////        Todo todoSave = new Todo();
-////        todoSave.setId(id);
-////        when(repository.save(todoSave)).thenReturn(todo);
-////        when(mapper.toResponse(todo)).thenReturn(dto);
-////
-////        TodoResponseDto result = todoService.create(createDto);
-////        assertEquals("New Todo", result.title());
-////    }
-//
-//    @Test
-//    void createShouldSaveNewTodo() {
-//        LocalDate deadline = LocalDate.now();
-//
-//        TodoCreateDto createDto = new TodoCreateDto(
-//                "Feed Max",
-//                "test if create works",
-//                deadline
-//        );
-//
-//        Todo savedTodo = new Todo();
-//        savedTodo.setId(id);
-//        savedTodo.setTitle("Feed Max");
-//        savedTodo.setDescription("test if create works");
-//        savedTodo.setDeadline(deadline);
-//
-//        when(repository.save(any(Todo.class))).thenReturn(savedTodo);
-//        when(mapper.toResponse(savedTodo)).thenReturn(dto);
-//
-//        TodoResponseDto result = todoService.create(createDto);
-//
-//        assertEquals("Feed Max", result.title());
-//    }
-//
+class TodoServiceTest {
+
+    @Mock
+    private TodoRepository todoRepository;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private TodoMapper todoMapper;
+
+    @InjectMocks
+    private TodoService todoService;
+
+    private UUID todoId;
+    private UUID userId;
+    private LocalDate deadline;
+    private LocalDateTime now;
+    private User user;
+    private Todo todo;
+    private TodoResponseDto todoResponseDto;
+
+    @BeforeEach
+    void setUp() {
+        todoId = UUID.randomUUID();
+        userId = UUID.randomUUID();
+        deadline = LocalDate.now();
+        now = LocalDateTime.now();
+
+        user = new User();
+        user.setId(userId);
+        user.setEmail("mail@gmail.com");
+        user.setName("John");
+
+        todo = new Todo();
+        todo.setId(todoId);
+        todo.setTitle("Feed Max");
+        todo.setDescription("Max is hungry");
+        todo.setDeadline(deadline);
+        todo.setDone(false);
+        todo.setCreatedAt(now);
+        todo.setUpdatedAt(now);
+        todo.setUser(user);
+
+        todoResponseDto = new TodoResponseDto(
+                todoId,
+                "Feed Max",
+                "Max is hungry",
+                deadline,
+                false,
+                now,
+                now,
+                userId
+        );
+    }
+
+    @Test
+    void readShouldReturnTodo() {
+        when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
+        when(todoMapper.toResponse(todo)).thenReturn(todoResponseDto);
+
+        TodoResponseDto result = todoService.read(todoId);
+
+        assertEquals(todoId, result.id());
+        assertEquals("Feed Max", result.title());
+    }
+
+    @Test
+    void readShouldThrowExceptionWhenTodoNotFound() {
+        when(todoRepository.findById(todoId)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> todoService.read(todoId));
+    }
+
+    @Test
+    void createShouldSaveNewTodo() {
+        TodoCreateDto createDto = new TodoCreateDto(
+                "Feed Max",
+                "Max is hungry",
+                deadline
+        );
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(todoRepository.save(any(Todo.class))).thenReturn(todo);
+        when(todoMapper.toResponse(todo)).thenReturn(todoResponseDto);
+
+        TodoResponseDto result = todoService.create(userId, createDto);
+
+        assertEquals("Feed Max", result.title());
+        assertEquals(userId, result.userId());
+    }
+
+    @Test
+    void createShouldThrowExceptionWhenUserNotFound() {
+        TodoCreateDto createDto = new TodoCreateDto("Feed Max", "Max is hungry", deadline);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> todoService.create(userId, createDto));
+    }
+
+    @Test
+    void updateShouldReturnUpdatedTodo() {
+        TodoUpdateDto updateDto = new TodoUpdateDto(
+                "Feed Max Updated",
+                "Max is very hungry",
+                deadline,
+                true
+        );
+
+        when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
+        when(todoMapper.toResponse(todo)).thenReturn(todoResponseDto);
+
+        TodoResponseDto result = todoService.update(todoId, updateDto);
+
+        assertEquals("Feed Max", result.title()); // Mapper keeps original title in our mock
+    }
+
+    @Test
+    void updateShouldThrowExceptionWhenTodoNotFound() {
+        TodoUpdateDto updateDto = new TodoUpdateDto("Feed Max Updated", "Max is very hungry", deadline, true);
+
+        when(todoRepository.findById(todoId)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> todoService.update(todoId, updateDto));
+    }
+
+    @Test
+    void deleteShouldCallRepository() {
+        when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
+
+        todoService.delete(todoId);
+        // no assertion needed; exception would fail the test if something wrong
+    }
+
+    @Test
+    void deleteShouldThrowExceptionWhenTodoNotFound() {
+        when(todoRepository.findById(todoId)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> todoService.delete(todoId));
+    }
 }

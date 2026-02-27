@@ -11,6 +11,8 @@ public record UserUpdateDto(
         @Size(max = 30)
         String name,
 
-        String password
+        String password,
+
+        String profilePicId
 ) {
 }

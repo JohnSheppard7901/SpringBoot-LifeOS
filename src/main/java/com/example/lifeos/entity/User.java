@@ -34,6 +34,9 @@ public class User {
     @Column(nullable = false, unique = false)
     String password;
 
+    @Column(name = "profile_pic_id")
+    String profilePicId;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Todo> todos = new ArrayList<>();
 

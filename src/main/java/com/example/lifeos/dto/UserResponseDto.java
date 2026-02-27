@@ -7,5 +7,6 @@ public record UserResponseDto(
         UUID id,
         String email,
         String name,
-        List<TodoDto> todoList
+        List<TodoDto> todoList,
+        String profilePicId
 ) {}

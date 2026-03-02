@@ -6,8 +6,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -36,6 +38,12 @@ public class UserController {
     @PatchMapping("/{id}")
     public ResponseEntity<UserResponseDto> update(@PathVariable UUID id, @Valid @RequestBody UserUpdateDto dto){
         return ResponseEntity.ok(service.update(id, dto));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/{userId}/profile-pic")
+    public void uploadProfilePic(@PathVariable UUID userId, @RequestParam("file") MultipartFile multipartFile){
+        service.uploadProfilePicture(userId, multipartFile);
     }
 
     @DeleteMapping("/{id}")

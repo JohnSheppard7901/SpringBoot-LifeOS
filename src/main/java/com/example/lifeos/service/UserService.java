@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final ImageService imageService;
 
     public Page<UserResponseDto> readAll(Pageable pageable){
         Page<User> users = repository.findAll(pageable);
@@ -70,6 +72,17 @@ public class UserService {
                 () -> new EntityNotFoundException(id)
         );
         repository.delete(user);
+    }
+
+
+    public void uploadProfilePicture(UUID userId, MultipartFile multipartFile){
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(userId));
+
+        String fileId = imageService.saveFile(multipartFile);
+
+        user.setProfilePicId(fileId);
+        repository.save(user);
     }
 
 }

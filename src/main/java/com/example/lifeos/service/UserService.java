@@ -36,13 +36,8 @@ public class UserService {
     }
 
     public UserResponseDto create(UserCreateDto dto){
-        User user = new User();
-        user.setEmail(dto.email());
-        user.setName(dto.name());
-        user.setPassword(dto.password());
-
+        User user = mapper.toEntity(dto);
         User savedUser = repository.save(user);
-
         return mapper.toResponseDto(savedUser);
     }
 
@@ -51,19 +46,7 @@ public class UserService {
         User user = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(id)
         );
-//        if (dto.email() != null){
-//            user.setEmail(dto.email());
-//        }
-//        if (dto.name() != null){
-//            user.setName(dto.name());
-//        }
-//        if(dto.password() != null){
-//            user.setPassword(dto.password());
-//        }
-//        User updatedUser = repository.save(user);
-
         mapper.updateEntityFromDto(dto, user);
-
         return mapper.toResponseDto(user);
     }
 
@@ -83,6 +66,11 @@ public class UserService {
 
         user.setProfilePicId(fileId);
         repository.save(user);
+    }
+
+    public Page<UserResponseDto> searchUserByName(String username, Pageable pageable){
+        Page<User> filteredUsers = repository.findByNameContainingIgnoreCase(username, pageable);
+        return filteredUsers.map(mapper::toResponseDto);
     }
 
 }

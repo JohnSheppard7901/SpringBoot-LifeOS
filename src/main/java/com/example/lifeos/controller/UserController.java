@@ -4,6 +4,7 @@ import com.example.lifeos.dto.userDtos.UserCreateDto;
 import com.example.lifeos.dto.userDtos.UserResponseDto;
 import com.example.lifeos.dto.userDtos.UserUpdateDto;
 import com.example.lifeos.service.UserService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public class UserController {
     private final UserService service;
 
     @GetMapping
-    public ResponseEntity<Page<UserResponseDto>> readAll(Pageable pageable){
+    public ResponseEntity<Page<UserResponseDto>> readAll(@Parameter(hidden = true) Pageable pageable){
         Page<UserResponseDto> todos = service.readAll(pageable);
         return ResponseEntity.ok(todos);
     }
@@ -51,6 +52,12 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id){
         service.delete(id);
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<UserResponseDto>> searchUsers(@RequestParam String username, @Parameter(hidden = true) Pageable pageable){
+        return ResponseEntity.ok(service.searchUserByName(username, pageable));
     }
 
 

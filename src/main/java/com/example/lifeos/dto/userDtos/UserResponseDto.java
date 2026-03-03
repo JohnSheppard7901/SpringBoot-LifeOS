@@ -1,4 +1,6 @@
-package com.example.lifeos.dto;
+package com.example.lifeos.dto.userDtos;
+
+import com.example.lifeos.dto.todoDtos.TodoDto;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,6 +1,5 @@
 package com.example.lifeos.storage;
 
-import com.example.lifeos.storage.properties.MinioProperties;
 import io.minio.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -47,27 +46,6 @@ public class MinioStorage implements FileStorage{
             );
         } catch (Exception e) {
             throw new RuntimeException("Failed to load file", e);
-        }
-    }
-
-    @PostConstruct
-    public void bucketSetup(){
-        try {
-            boolean exists = minioClient.bucketExists(
-                    BucketExistsArgs.builder()
-                            .bucket(minioProperties.getBucket())
-                            .build()
-            );
-
-            if (!exists){
-                minioClient.makeBucket(
-                        MakeBucketArgs.builder()
-                                .bucket(minioProperties.getBucket())
-                                .build()
-                );
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create bucket", e);
         }
     }
 

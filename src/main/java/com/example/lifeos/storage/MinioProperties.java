@@ -1,4 +1,4 @@
-package com.example.lifeos.storage.properties;
+package com.example.lifeos.storage;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 public class MinioProperties {
     @Value("${minio.url}")
     private String url;
+
+    @Value("${minio.secure}")
+    private boolean secure;
 
     @Value("${minio.port}")
     private int port;

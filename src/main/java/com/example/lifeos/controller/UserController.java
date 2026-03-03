@@ -1,6 +1,8 @@
 package com.example.lifeos.controller;
 
-import com.example.lifeos.dto.*;
+import com.example.lifeos.dto.userDtos.UserCreateDto;
+import com.example.lifeos.dto.userDtos.UserResponseDto;
+import com.example.lifeos.dto.userDtos.UserUpdateDto;
 import com.example.lifeos.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

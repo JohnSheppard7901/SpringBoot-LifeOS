@@ -1,7 +1,7 @@
 package com.example.lifeos.controller;
 
-import com.example.lifeos.dto.TodoResponseDto;
-import com.example.lifeos.dto.TodoUpdateDto;
+import com.example.lifeos.dto.todoDtos.TodoResponseDto;
+import com.example.lifeos.dto.todoDtos.TodoUpdateDto;
 import com.example.lifeos.service.TodoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,28 +23,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.lifeos.dto.TodoCreateDto;
-import com.example.lifeos.dto.TodoResponseDto;
-import com.example.lifeos.dto.TodoUpdateDto;
-import com.example.lifeos.service.TodoService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import com.example.lifeos.dto.todoDtos.TodoCreateDto;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest

@@ -1,6 +1,5 @@
 package com.example.lifeos.storage;
 
-import com.example.lifeos.storage.properties.MinioProperties;
 import io.minio.MinioClient;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +16,7 @@ public class MinioConfig {
                 .endpoint(
                         minioProperties.getUrl(),
                         minioProperties.getPort(),
-                        minioProperties.getUrl().contains("https"))
+                        minioProperties.isSecure())
                 .credentials(
                         minioProperties.getUser(),
                         minioProperties.getPassword())

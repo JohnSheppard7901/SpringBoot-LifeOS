@@ -1,8 +1,8 @@
 package com.example.lifeos.service;
 
-import com.example.lifeos.dto.UserCreateDto;
-import com.example.lifeos.dto.UserResponseDto;
-import com.example.lifeos.dto.UserUpdateDto;
+import com.example.lifeos.dto.userDtos.UserCreateDto;
+import com.example.lifeos.dto.userDtos.UserResponseDto;
+import com.example.lifeos.dto.userDtos.UserUpdateDto;
 import com.example.lifeos.entity.User;
 import com.example.lifeos.exception.EntityNotFoundException;
 import com.example.lifeos.mapper.UserMapper;

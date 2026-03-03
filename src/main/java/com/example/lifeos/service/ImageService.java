@@ -38,11 +38,11 @@ public class ImageService {
         // 2. max size überschritten
         // 3. content type nicht erlaubt
 
-        if (file.getSize() > MAX_FILE_SIZE)
-            throw new IllegalArgumentException("File size exceeded max.");
-
         if(file.isEmpty())
             throw new IllegalArgumentException("File can not be empty.");
+
+        if (file.getSize() > MAX_FILE_SIZE)
+            throw new IllegalArgumentException("File size exceeded max.");
 
         if (file.getContentType() == null || !ALLOWED_CONTENT_TYPES.contains(file.getContentType()))
             throw new IllegalArgumentException("Content type of file not allowed. Only jpeg, png, gif and webp allowed.");

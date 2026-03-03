@@ -1,4 +1,4 @@
-package com.example.lifeos.dto;
+package com.example.lifeos.dto.todoDtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,11 +1,8 @@
-package com.example.lifeos.dto;
+package com.example.lifeos.dto.todoDtos;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
-public record TodoDto(
-        UUID id,
+public record TodoUpdateDto(
         String title,
         String description,
         LocalDate deadline,

@@ -1,6 +1,5 @@
-package com.example.lifeos.dto;
+package com.example.lifeos.dto.todoDtos;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;

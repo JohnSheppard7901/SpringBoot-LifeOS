@@ -1,8 +1,8 @@
 package com.example.lifeos.service;
 
-import com.example.lifeos.dto.TodoCreateDto;
-import com.example.lifeos.dto.TodoResponseDto;
-import com.example.lifeos.dto.TodoUpdateDto;
+import com.example.lifeos.dto.todoDtos.TodoCreateDto;
+import com.example.lifeos.dto.todoDtos.TodoResponseDto;
+import com.example.lifeos.dto.todoDtos.TodoUpdateDto;
 import com.example.lifeos.entity.Todo;
 import com.example.lifeos.entity.User;
 import com.example.lifeos.exception.EntityNotFoundException;

@@ -1,8 +1,8 @@
 package com.example.lifeos.mapper;
 
-import com.example.lifeos.dto.TodoDto;
-import com.example.lifeos.dto.TodoResponseDto;
-import com.example.lifeos.dto.TodoUpdateDto;
+import com.example.lifeos.dto.todoDtos.TodoDto;
+import com.example.lifeos.dto.todoDtos.TodoResponseDto;
+import com.example.lifeos.dto.todoDtos.TodoUpdateDto;
 import com.example.lifeos.entity.Todo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

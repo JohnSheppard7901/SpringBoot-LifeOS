@@ -1,7 +1,7 @@
 package com.example.lifeos.controller;
-import com.example.lifeos.dto.TodoCreateDto;
-import com.example.lifeos.dto.TodoResponseDto;
-import com.example.lifeos.dto.TodoUpdateDto;
+import com.example.lifeos.dto.todoDtos.TodoCreateDto;
+import com.example.lifeos.dto.todoDtos.TodoResponseDto;
+import com.example.lifeos.dto.todoDtos.TodoUpdateDto;
 import com.example.lifeos.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

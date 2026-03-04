@@ -20,3 +20,10 @@ LifeOS gives you full control over your daily life through a clean, extensible R
 - 🔐 Authentication & Authorization (JWT)
 - 📊 Statistics & Dashboards
 - ... and much more
+
+
+---
+
+## 📚 Wiki
+
+Detailed documentation, architecture decisions, and the full implementation workflow are maintained in the [GitHub Wiki](../../wiki).

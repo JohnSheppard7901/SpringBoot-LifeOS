@@ -49,6 +49,7 @@ public class UserController {
         service.uploadProfilePicture(userId, multipartFile);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id){
         service.delete(id);

@@ -47,6 +47,7 @@ public class UserService {
                 () -> new EntityNotFoundException(id)
         );
         mapper.updateEntityFromDto(dto, user);
+        repository.save(user);
         return mapper.toResponseDto(user);
     }
 
